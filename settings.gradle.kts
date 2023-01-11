@@ -4,15 +4,6 @@ pluginManagement {
         google()
         mavenCentral()
     }
-
-    plugins {
-        val androidLibraryVersion: String by settings
-        id("com.android.application") version androidLibraryVersion
-        id("com.android.library") version androidLibraryVersion
-
-        val kotlinVersion: String by settings
-        kotlin("android") version kotlinVersion
-    }
 }
 dependencyResolutionManagement {
 

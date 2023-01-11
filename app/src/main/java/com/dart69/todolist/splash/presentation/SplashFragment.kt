@@ -10,5 +10,8 @@ class SplashFragment : BaseFragment<FragmentSplashBinding, SplashViewModel>(
 ) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.observeScreenState().collectWithLifecycle {
+            binding.imageView.setImageResource(it.imageRes)
+        }
     }
 }
