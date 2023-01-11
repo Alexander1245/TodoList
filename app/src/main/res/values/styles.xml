@@ -1,2 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+
+    <style name="AppTextViewStyle" parent="Widget.AppCompat.TextView">
+        <item name="android:textAlignment">center</item>
+        <item name="android:textColor">@color/on_surface</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+    </style>
+
+    <style name="TitleTextViewStyle" parent="AppTextViewStyle">
+        <item name="android:textSize">@dimen/title_text_size</item>
+    </style>
+
+    <style name="LargeButton" parent="Widget.Material3.Button">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_marginStart">@dimen/large_button_margin_horizontal</item>
+        <item name="android:layout_marginEnd">@dimen/large_button_margin_horizontal</item>
+    </style>
+
+    <style name="LargeImageView">
+        <item name="android:layout_height">@dimen/large_image_size</item>
+        <item name="android:layout_width">@dimen/large_image_size</item>
+        <item name="android:layout_gravity">center</item>
+    </style>
+</resources>

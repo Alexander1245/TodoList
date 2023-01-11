@@ -5,10 +5,11 @@
     android:layout_height="match_parent"
     tools:context=".splash.presentation.SplashFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
-
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="@dimen/splash_image_size"
+        android:layout_height="@dimen/splash_image_size"
+        android:layout_gravity="center"
+        android:contentDescription="@string/splash_logo"
+        android:src="@drawable/uno_platform_symbol" />
 </FrameLayout>
