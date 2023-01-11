@@ -26,9 +26,9 @@ interface MutableScreenStateObserver<T : ScreenState> : ScreenStateObserver<T> {
     suspend fun sendScreenState(screenState: T)
 
     class Default<T : ScreenState>(
-        initialState: T
+        initial: T
     ) : MutableScreenStateObserver<T> {
-        private val screenStates = MutableStateFlow(initialState)
+        private val screenStates = MutableStateFlow(initial)
 
         override fun observeScreenState(): StateFlow<T> = screenStates.asStateFlow()
 

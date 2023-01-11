@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".greetings.presentation.GreetingsFragment">
+
+    <ImageView
+        android:id="@+id/imageView"
+        style="@style/LargeImageView"
+        android:layout_marginTop="@dimen/greetings_image_margin_top"
+        android:contentDescription="@string/greetings_image"
+        android:src="@drawable/welcome_uno" />
+
+    <TextView
+        android:id="@+id/greetingsTextView"
+        style="@style/TitleTextViewStyle"
+        android:layout_marginHorizontal="@dimen/greetings_margin"
+        android:layout_marginTop="@dimen/greetings_margin"
+        android:text="@string/greetings" />
+
+    <TextView
+        android:id="@+id/hintTextView"
+        style="@style/AppTextViewStyle"
+        android:layout_marginTop="@dimen/greetings_hint_margin_top"
+        android:text="@string/hint"
+        android:textColor="?attr/colorPrimaryVariant"/>
+
+    <Button
+        android:id="@+id/getStartedButton"
+        style="@style/LargeButton"
+        android:layout_marginTop="@dimen/greetings_button_margin_top"
+        android:text="@string/get_started" />
+
+</LinearLayout>
