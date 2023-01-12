@@ -8,3 +8,14 @@ plugins {
     }
 }
 
+buildscript {
+    repositories {
+        google()
+    }
+    dependencies {
+        AppDependencies.topLevelClasspaths.forEach {
+            classpath(it)
+        }
+    }
+}
+

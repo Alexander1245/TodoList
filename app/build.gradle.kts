@@ -1,6 +1,6 @@
 plugins {
-    AppDependencies.plugins.forEach { id(it) }
     AppDependencies.kotlinPlugins.forEach { kotlin(it) }
+    AppDependencies.plugins.forEach { id(it) }
 }
 
 android {

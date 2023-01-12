@@ -7,6 +7,8 @@ import com.dart69.todolist.R
 import com.dart69.todolist.core.presentation.CommunicatorViewModel
 import com.dart69.todolist.core.presentation.ScreenEvent
 import com.dart69.todolist.core.presentation.ScreenState
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
 data class GreetingsScreenState(
     @DrawableRes val imageRes: Int,
@@ -23,7 +25,8 @@ data class GetStartedEvent(
     val destination: NavDestination
 ) : ScreenEvent
 
-class GreetingsViewModel(
+@HiltViewModel
+class GreetingsViewModel @Inject constructor(
 
 ) : CommunicatorViewModel<GreetingsScreenState, GetStartedEvent>(GreetingsScreenState.DEFAULT) {
 

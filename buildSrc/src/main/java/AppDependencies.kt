@@ -1,15 +1,17 @@
 object AppDependencies : DependenciesOwner {
-    private val owners = setOf<Owner>(
+    private val owners = listOf<Owner>(
         Kotlin,
         Hilt,
-        Navigation,
         Lifecycle,
         DataStore,
         Android,
+        Navigation,
         Material,
         ConstraintLayout,
         JUnit,
         Espresso,
+        Coroutines,
+        SafeArgs,
     )
 
     override val implementations: List<String> =
@@ -55,5 +57,10 @@ object AppDependencies : DependenciesOwner {
     override val topLevelKotlinPlugins: List<Pair<String, String>> =
         owners.filterIsInstance(TopLevelKotlinPluginOwner::class.java).flatMap {
             it.topLevelKotlinPlugins
+        }
+
+    override val topLevelClasspaths: List<String> =
+        owners.filterIsInstance(TopLevelClasspathOwner::class.java).flatMap {
+            it.topLevelClasspaths
         }
 }
