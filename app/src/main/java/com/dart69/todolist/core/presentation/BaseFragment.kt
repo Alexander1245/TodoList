@@ -12,13 +12,14 @@ import kotlin.reflect.KClass
 abstract class BaseFragment<VB : ViewBinding, VM : ViewModel>(
     private val bindingClass: KClass<VB>,
     private val viewModelClass: KClass<VM>,
-    private val viewModelStoreOwner: (Fragment) -> ViewModelStoreOwner = { it }
 ) : Fragment(), Screen {
     private lateinit var _binding: VB
     private lateinit var _viewModel: VM
 
     protected val binding: VB get() = _binding
     protected val viewModel: VM get() = _viewModel
+
+    protected open val viewModelStoreOwner: (Fragment) -> ViewModelStoreOwner = { it }
 
     override fun requireLifecycleScope(): LifecycleCoroutineScope =
         viewLifecycleOwner.lifecycleScope

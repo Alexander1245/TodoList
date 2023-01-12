@@ -56,13 +56,14 @@ object Kotlin : KotlinImplementationsOwner, KotlinAppPluginOwner, TopLevelKotlin
 
 object Hilt : ImplementationsOwner, KaptsOwner, AppPluginOwner, TopLevelPluginOwner {
     private const val VERSION = "2.44"
+    private const val PLUGIN = "com.google.dagger.hilt.android"
 
     override val topLevelPlugins: List<Pair<String, String>> = listOf(
-        "com.google.dagger.hilt.android" to VERSION,
+        PLUGIN to VERSION,
     )
 
     override val plugins: List<String> = listOf(
-        "com.google.dagger.hilt.android",
+        PLUGIN,
     )
 
     override val implementations = listOf(
@@ -74,8 +75,20 @@ object Hilt : ImplementationsOwner, KaptsOwner, AppPluginOwner, TopLevelPluginOw
     )
 }
 
+object SafeArgs : TopLevelClasspathOwner, AppPluginOwner {
+    private const val VERSION = Navigation.VERSION
+
+    override val plugins: List<String> = listOf(
+        "androidx.navigation.safeargs.kotlin",
+    )
+
+    override val topLevelClasspaths: List<String> = listOf(
+        "androidx.navigation:navigation-safe-args-gradle-plugin:$VERSION",
+    )
+}
+
 object Navigation : ImplementationsOwner {
-    private const val VERSION = "2.5.3"
+    const val VERSION = "2.5.3"
 
     override val implementations = listOf(
         "androidx.navigation:navigation-fragment-ktx:$VERSION",
@@ -118,5 +131,17 @@ object Espresso : AndroidTestImplementationsOwner {
 
     override val androidTestImplementations: List<String> = listOf(
         "androidx.test.espresso:espresso-core:$VERSION",
+    )
+}
+
+object Coroutines : TestImplementationsOwner, ImplementationsOwner {
+    private const val VERSION = "1.3.9"
+
+    override val implementations: List<String> = listOf(
+        "org.jetbrains.kotlinx:kotlinx-coroutines-android:$VERSION",
+    )
+
+    override val testImplementations: List<String> = listOf(
+        "org.jetbrains.kotlinx:kotlinx-coroutines-test:$VERSION",
     )
 }
