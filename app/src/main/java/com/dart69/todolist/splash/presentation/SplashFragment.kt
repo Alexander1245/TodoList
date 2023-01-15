@@ -17,9 +17,7 @@ class SplashFragment : BaseFragment<FragmentSplashBinding, SplashViewModel>(
             binding.imageView.setImageResource(it.imageRes)
         }
         viewModel.observeEvent().collectWithLifecycle { event ->
-            findNavController().also {
-                it.navigate(event.directions)
-            }
+            findNavController().navigate(event.directions)
         }
         viewModel.showSplash()
     }

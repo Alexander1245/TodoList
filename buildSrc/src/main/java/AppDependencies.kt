@@ -12,6 +12,9 @@ object AppDependencies : DependenciesOwner {
         Espresso,
         Coroutines,
         SafeArgs,
+        RecyclerView,
+        Room,
+        Paging,
     )
 
     override val implementations: List<String> =

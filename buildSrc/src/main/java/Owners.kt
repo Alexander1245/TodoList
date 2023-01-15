@@ -37,9 +37,9 @@ interface AndroidTestImplementationsOwner : Owner {
 }
 
 interface TopLevelClasspathOwner : Owner {
-    val topLevelClasspaths:List<String>
+    val topLevelClasspaths: List<String>
 }
 
 interface DependenciesOwner : ImplementationsOwner, KaptsOwner, KotlinImplementationsOwner,
     AppPluginOwner, KotlinAppPluginOwner, TestImplementationsOwner, AndroidTestImplementationsOwner,
-        TopLevelPluginOwner, TopLevelKotlinPluginOwner, TopLevelClasspathOwner
+    TopLevelPluginOwner, TopLevelKotlinPluginOwner, TopLevelClasspathOwner

@@ -8,6 +8,7 @@ import androidx.navigation.NavDirections
 import com.BaseTest
 import com.assertCollectionsEquals
 import com.dart69.TestDispatchers
+import com.dart69.todolist.core.presentation.NavigationEvent
 import com.dart69.todolist.splash.domain.usecase.IsAppFirstRunUseCase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.take

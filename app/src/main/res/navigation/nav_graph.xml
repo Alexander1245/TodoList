@@ -26,7 +26,11 @@
         android:id="@+id/homeFragment"
         android:name="com.dart69.todolist.home.presentation.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_createListDialogFragment"
+            app:destination="@id/createListDialogFragment" />
+    </fragment>
     <fragment
         android:id="@+id/greetingsFragment"
         android:name="com.dart69.todolist.greetings.presentation.GreetingsFragment"
@@ -39,4 +43,9 @@
             app:popUpTo="@id/nav_graph"
             app:popUpToInclusive="true"/>
     </fragment>
+    <dialog
+        android:id="@+id/createListDialogFragment"
+        android:name="com.dart69.todolist.createlist.presentation.CreateListDialogFragment"
+        android:label="fragment_create_list"
+        tools:layout="@layout/fragment_create_list" />
 </navigation>

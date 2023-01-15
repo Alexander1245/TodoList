@@ -1,14 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".home.presentation.HomeFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:id="@+id/errorLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/errorTextView"
+            style="@style/BoldTextView"
+            android:layout_marginHorizontal="@dimen/divider_horizontal_margins"
+            tools:text="@string/large_text" />
+
+        <Button
+            android:id="@+id/buttonTryAgain"
+            style="@style/LargeButton"
+            android:layout_marginVertical="@dimen/divider_vertical_margins"
+            android:text="@string/ok_i_get_it"/>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/homeLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:menu="@menu/home_menu" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewSmartLists"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/buttonNewList"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_gravity="start"
+            android:text="@string/new_list"
+            app:icon="@drawable/ic_add"
+            app:iconTint="?attr/colorPrimary" />
+
+    </LinearLayout>
+
 
 </FrameLayout>

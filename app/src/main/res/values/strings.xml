@@ -6,4 +6,17 @@
     <string name="splash_logo">Splash logo</string>
     <string name="greetings_image">Greetings image</string>
     <string name="get_started">Get started</string>
+    <string name="search">Search</string>
+    <string name="new_list">New list</string>
+
+    <string name="large_text">At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.</string>
+    <string name="smart_list_item_icon">Smart list item icon</string>
+    <string name="open_smart_list_details">Open smart list details</string>
+    <string name="search_hint">Input search query</string>
+    <string name="cancel">Cancel</string>
+    <string name="create">Create</string>
+    <string name="item_already_exists">Item %1s already exists</string>
+    <string name="internal_exception">Internal exception: %1s</string>
+    <string name="item_with_same_names_details">Do not create task lists with same names. Each name must be unique.</string>
+    <string name="ok_i_get_it">Ok, I get it!</string>
 </resources>

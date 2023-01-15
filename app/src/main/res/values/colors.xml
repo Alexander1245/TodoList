@@ -5,4 +5,6 @@
     <color name="on_surface">#1C1B1F</color>
     <color name="primary_variant">#5835E5</color>
     <color name="primary">#5946D2</color>
+    <color name="error_color">#F85977</color>
+    <color name="primary_inverse">#C8BFFF</color>
 </resources>
