@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/smart_list_item_height"
+    android:layout_marginHorizontal="@dimen/smart_list_item_horizontal_margin"
+    android:orientation="horizontal"
+    android:gravity="center">
+
+    <ImageView
+        android:id="@+id/listIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/smart_list_item_icon"
+        tools:src="@drawable/ic_star_rate" />
+
+    <TextView
+        android:id="@+id/labelTextView"
+        style="@style/BoldSingleLineTextView"
+        android:layout_width="0dp"
+        android:layout_marginHorizontal="@dimen/label_horizontal_margins"
+        android:layout_weight="1"
+        tools:text="@string/large_text" />
+
+    <ImageView
+        android:id="@+id/chevronIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/open_smart_list_details"
+        android:src="@drawable/ic_chevron_right" />
+
+</LinearLayout>

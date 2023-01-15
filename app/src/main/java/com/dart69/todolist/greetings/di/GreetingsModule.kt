@@ -7,12 +7,14 @@ import com.dart69.todolist.greetings.domain.AppSettingsRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Qualifier
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-interface GreetingsModule {
+interface GreetingsSingletonModule {
 
     @Binds
     @Singleton

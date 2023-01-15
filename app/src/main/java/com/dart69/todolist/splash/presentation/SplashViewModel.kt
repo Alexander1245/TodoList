@@ -5,7 +5,7 @@ import androidx.navigation.NavDirections
 import com.dart69.todolist.R
 import com.dart69.todolist.core.coroutines.AvailableDispatchers
 import com.dart69.todolist.core.presentation.CommunicatorViewModel
-import com.dart69.todolist.core.presentation.ScreenEvent
+import com.dart69.todolist.core.presentation.NavigationEvent
 import com.dart69.todolist.core.presentation.ScreenState
 import com.dart69.todolist.splash.di.GreetingsDirection
 import com.dart69.todolist.splash.di.HomeDirection
@@ -24,8 +24,6 @@ enum class SplashScreenState(
     Completed(R.drawable.arraow_symbol),
 }
 
-data class NavigationEvent(val directions: NavDirections) : ScreenEvent
-
 @HiltViewModel
 class SplashViewModel @Inject constructor(
     @TimeOut private val timeOut: Long,
@@ -37,7 +35,7 @@ class SplashViewModel @Inject constructor(
     private val isSplashShown = AtomicBoolean(false)
 
     fun showSplash() {
-        if(isSplashShown.compareAndSet(false, true)) {
+        if (isSplashShown.compareAndSet(false, true)) {
             viewModelScope.launch(dispatchers.default) {
                 delay(timeOut)
                 screenObserver.sendScreenState(SplashScreenState.Completed)

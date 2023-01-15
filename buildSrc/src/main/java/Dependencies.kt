@@ -37,6 +37,14 @@ object ConstraintLayout : ImplementationsOwner {
     )
 }
 
+object RecyclerView : ImplementationsOwner {
+    private const val VERSION = "1.2.1"
+
+    override val implementations: List<String> = listOf(
+        "androidx.recyclerview:recyclerview:$VERSION",
+    )
+}
+
 object Kotlin : KotlinImplementationsOwner, KotlinAppPluginOwner, TopLevelKotlinPluginOwner {
     private const val VERSION = "1.7.20"
 
@@ -143,5 +151,31 @@ object Coroutines : TestImplementationsOwner, ImplementationsOwner {
 
     override val testImplementations: List<String> = listOf(
         "org.jetbrains.kotlinx:kotlinx-coroutines-test:$VERSION",
+    )
+}
+
+object Room : ImplementationsOwner, KaptsOwner {
+    private const val VERSION = "2.5.0"
+
+    override val kapts: List<String> = listOf(
+        "androidx.room:room-compiler:$VERSION",
+    )
+
+    override val implementations: List<String> = listOf(
+        "androidx.room:room-runtime:$VERSION",
+        "androidx.room:room-ktx:$VERSION",
+        "androidx.room:room-paging:$VERSION",
+    )
+}
+
+object Paging : ImplementationsOwner, TestImplementationsOwner {
+    private const val VERSION = "3.1.1"
+
+    override val implementations: List<String> = listOf(
+        "androidx.paging:paging-runtime:$VERSION",
+    )
+
+    override val testImplementations: List<String> = listOf(
+        "androidx.paging:paging-common:$VERSION",
     )
 }
