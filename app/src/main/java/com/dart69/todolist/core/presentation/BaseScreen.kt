@@ -24,7 +24,7 @@ interface BaseScreen : Screen {
         .maxBy { it.parameters.size }
         .call(inflater, container, false) as T
 
-    private companion object {
+    companion object {
         const val BINDER_NAME = "inflate"
     }
 }

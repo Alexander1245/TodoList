@@ -22,15 +22,19 @@ import org.junit.Test
 internal class FakeTaskListDao : TaskListDao {
     private val data = mutableListOf<TaskListEntity>()
 
-    override suspend fun searchBy(query: String): List<TaskListEntity> =
+    suspend fun searchBy(query: String): List<TaskListEntity> =
         data.filter { query in it.name }
+
+    override suspend fun loadAll(): List<TaskListEntity> {
+        TODO("Not yet implemented")
+    }
 
     override suspend fun insert(taskList: TaskListEntity) {
         data += taskList
     }
 
-    override suspend fun upsert(vararg taskLists: TaskListEntity) {
-        data += taskLists
+    override suspend fun upsert(taskLists: List<TaskListEntity>) {
+        TODO("Not yet implemented")
     }
 }
 

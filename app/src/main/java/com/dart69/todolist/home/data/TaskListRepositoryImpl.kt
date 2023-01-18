@@ -1,56 +1,47 @@
 package com.dart69.todolist.home.data
 
-import com.dart69.todolist.core.coroutines.*
-import com.dart69.todolist.core.data.mapper.BidirectionalMapper
-import com.dart69.todolist.home.data.entity.TaskListEntity
+import com.dart69.todolist.core.coroutines.ResultsFlow
+import com.dart69.todolist.core.coroutines.resultsFlowOf
 import com.dart69.todolist.home.di.Predefined
 import com.dart69.todolist.home.domain.TaskListRepository
 import com.dart69.todolist.home.domain.model.TaskList
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class TaskListRepositoryImpl @Inject constructor(
-    private val dispatchers: AvailableDispatchers,
-    private val mapper: BidirectionalMapper<TaskListEntity, TaskList>,
-    private val dao: TaskListDao,
-    @Predefined private val predefinedTaskList: List<@JvmSuppressWildcards TaskList>,
-    private val queryMapper: QueryMapper,
+    @Predefined private val smartLists: List<@JvmSuppressWildcards TaskList>,
+    private val localDataSource: TasksLocalDataSource,
 ) : TaskListRepository {
-    private val taskLists = MutableResultsStateFlow(Results.Success(emptyList<TaskList>()))
-    private val lastQuery = MutableStateFlow(queryMapper.map(""))
+    private val lastQuery = MutableStateFlow(INITIAL_QUERY)
 
-    override fun observeTaskLists(): ResultsStateFlow<List<TaskList>> = taskLists.asStateFlow()
-
-    private suspend fun emitLastQueryWith(action: (suspend () -> Unit)? = null) {
-        taskLists.emitResults {
-            withContext(dispatchers.io) {
-                action?.invoke()
-                dao.searchBy(lastQuery.value).map(mapper::toModel)
-            }
+    private fun taskResultsFlowOf(block: suspend () -> Unit): ResultsFlow<List<TaskList>> =
+        resultsFlowOf {
+            block()
+            localDataSource.searchBy(lastQuery.value)
         }
-    }
 
-    override suspend fun emitSearchQuery(query: String) {
-        emitLastQueryWith {
-            lastQuery.emit(queryMapper.map(query))
+    override suspend fun search(query: String): ResultsFlow<List<TaskList>> =
+        taskResultsFlowOf {
+            lastQuery.emit(query)
         }
-    }
 
-    override suspend fun emitLastQuery() {
-        emitLastQueryWith()
-    }
-
-    override suspend fun createNewList(list: TaskList) {
-        emitLastQueryWith {
-            dao.insert(mapper.toEntity(list))
+    override suspend fun createSmartLists(): ResultsFlow<List<TaskList>> =
+        taskResultsFlowOf {
+            localDataSource.upsert(smartLists)
         }
-    }
 
-    override suspend fun createSmartLists() {
-        emitLastQueryWith {
-            dao.upsert(*predefinedTaskList.map(mapper::toEntity).toTypedArray())
+    override suspend fun createList(taskList: TaskList): ResultsFlow<List<TaskList>> =
+        taskResultsFlowOf {
+            localDataSource.insert(taskList)
         }
+
+    override suspend fun findTaskByName(name: String): ResultsFlow<TaskList?> =
+        resultsFlowOf {
+            localDataSource.findByName(name)
+        }
+
+    private companion object {
+        const val INITIAL_QUERY = ""
     }
 }
+

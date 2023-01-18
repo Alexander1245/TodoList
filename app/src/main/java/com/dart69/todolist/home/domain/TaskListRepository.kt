@@ -1,16 +1,18 @@
 package com.dart69.todolist.home.domain
 
-import com.dart69.todolist.core.coroutines.ResultsStateFlow
+import com.dart69.todolist.core.coroutines.ResultsFlow
 import com.dart69.todolist.home.domain.model.TaskList
 
 interface TaskListRepository {
-    fun observeTaskLists(): ResultsStateFlow<List<TaskList>>
+    suspend fun search(query: String): ResultsFlow<List<TaskList>>
 
-    suspend fun emitSearchQuery(query: String)
+    suspend fun createSmartLists(): ResultsFlow<List<TaskList>>
 
-    suspend fun emitLastQuery()
+    suspend fun createList(taskList: TaskList): ResultsFlow<List<TaskList>>
 
-    suspend fun createNewList(list: TaskList)
+    suspend fun findTaskByName(name: String): ResultsFlow<TaskList?>
 
-    suspend fun createSmartLists()
+    companion object {
+        const val MAX_NAME_LENGTH = 20
+    }
 }

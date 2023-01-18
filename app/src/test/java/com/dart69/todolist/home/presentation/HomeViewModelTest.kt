@@ -5,8 +5,8 @@ import com.dart69.TestDispatchers
 import com.dart69.todolist.core.coroutines.*
 import com.dart69.todolist.home.domain.TaskListRepository
 import com.dart69.todolist.home.domain.model.TaskList
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Test
 
@@ -16,7 +16,7 @@ class FakeTaskListRepository : TaskListRepository {
     override fun observeTaskLists(): ResultsStateFlow<List<TaskList>> = data.asStateFlow()
 
     override suspend fun emitSearchQuery(query: String) {
-       data.emitResults { listOf(TaskList(query)) }
+        data.emitResults { listOf(TaskList(query)) }
     }
 
     override suspend fun emitLastQuery() {
@@ -38,15 +38,16 @@ internal class HomeViewModelTest : BaseTest.Default() {
 
     @Before
     override fun beforeEach() {
-        viewModel = HomeViewModel(
+        /*viewModel = HomeViewModel(
             repository = FakeTaskListRepository(),
             dispatchers = TestDispatchers(),
-        )
+
+        )*/
     }
 
     @Test
-    fun `viewModel creates predefined lists each time`() {
-        ///????????????????????????????????????????????
+    fun `viewModel creates predefined lists each time`() = runBlocking {
+
     }
 
     @Test

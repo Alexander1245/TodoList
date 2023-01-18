@@ -14,6 +14,13 @@ sealed class Results<T> {
     data class Success<T>(val data: T) : Results<T>()
 }
 
+fun <T, R> Results<T>.mapResults(onSuccess: (T) -> R): Results<R> =
+    when(this) {
+        is Results.Success -> Results.Success(onSuccess(data))
+        is Results.Error -> Results.Error(throwable)
+        is Results.Loading -> Results.Loading(inProgress)
+    }
+
 fun <T> resultsFlowOf(block: suspend () -> T): ResultsFlow<T> = flow<Results<T>> {
     emit(Results.Success(block()))
 }.onStart {

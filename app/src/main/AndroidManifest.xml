@@ -14,7 +14,7 @@
         android:theme="@style/Theme.TodoList"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
+            android:name=".main.presentation.MainActivity"
             android:exported="true"
             android:theme="@style/Theme.TodoList">
             <intent-filter>
