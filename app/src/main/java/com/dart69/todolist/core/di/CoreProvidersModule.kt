@@ -3,6 +3,7 @@ package com.dart69.todolist.core.di
 import android.content.Context
 import androidx.room.Room
 import com.dart69.todolist.core.data.database.AppDataBase
+import com.dart69.todolist.core.data.database.migrations.From1To2
 import com.dart69.todolist.core.util.Logger
 import dagger.Module
 import dagger.Provides
@@ -32,6 +33,9 @@ object CoreProvidersModule {
         @ApplicationContext context: Context,
     ): AppDataBase = Room
         .databaseBuilder(context, AppDataBase::class.java, AppDataBase.NAME)
+        .addMigrations(
+            From1To2(),
+        )
         .build()
 
     @Provides

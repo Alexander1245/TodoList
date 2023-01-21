@@ -1,5 +1,6 @@
 package com.dart69.todolist.home.presentation
 
+import android.util.Log
 import androidx.annotation.StringRes
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.viewModelScope
@@ -36,6 +37,9 @@ class HomeViewModel @Inject constructor(
     init {
         viewModelScope.launch(dispatchers.default) {
             repository.observe().collect {
+                if(it is Results.Error) {
+                    Log.d("Home", "results ${it.throwable}")
+                }
                 screenObserver.sendScreenState(it.toScreenState())
             }
         }
