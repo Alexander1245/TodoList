@@ -1,6 +1,6 @@
 package com.dart69.todolist.createlist.presentation
 
-import androidx.core.view.forEach
+import androidx.core.widget.addTextChangedListener
 import androidx.navigation.fragment.findNavController
 import com.dart69.todolist.core.presentation.BaseDialogFragment
 import com.dart69.todolist.databinding.FragmentCreateListBinding
@@ -17,21 +17,22 @@ class CreateListDialogFragment : BaseDialogFragment<FragmentCreateListBinding, C
         }
 
         binding.createButton.setOnClickListener {
-            viewModel.createNewList(binding.newListNameEditText.text.toString())
+            viewModel.createNewList()
+        }
+
+        binding.newListNameEditText.addTextChangedListener {
+            viewModel.onTextChanged(it.toString())
         }
 
         viewModel.observeEvent().collectWithLifecycle {
             findNavController().navigateUp()
         }
         viewModel.observeScreenState().collectWithLifecycle {
+            binding.textInputLayout.isErrorEnabled = it is CreateListScreenState.InvalidName
             if (it is CreateListScreenState.InvalidName) {
-                binding.textInputLayout.error =
-                    getString(it.message, binding.newListNameEditText.text.toString())
-                binding.newListNameEditText.text?.clear()
+                binding.textInputLayout.error = getString(it.message, it.argument)
             }
-            binding.root.forEach { view ->
-                view.isEnabled = it !is CreateListScreenState.Loading
-            }
+            binding.createButton.isEnabled = it.isCreateButtonEnabled
         }
     }
 }

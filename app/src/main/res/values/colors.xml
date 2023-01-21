@@ -7,4 +7,6 @@
     <color name="primary">#5946D2</color>
     <color name="error_color">#F85977</color>
     <color name="primary_inverse">#C8BFFF</color>
+    <color name="primary_surface">#B0A2F2</color>
+    <color name="on_surface_variant">#1C1B1F29</color>
 </resources>

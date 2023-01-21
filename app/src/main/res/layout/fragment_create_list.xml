@@ -26,9 +26,9 @@
             android:id="@+id/newListNameEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="16"
             android:hint="@string/new_list"
-            android:lines="1"
+            android:maxLength="25"
+            android:inputType="textPersonName"
             tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck"
             tools:text="@string/large_text" />
     </com.google.android.material.textfield.TextInputLayout>

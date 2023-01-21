@@ -18,30 +18,36 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val adapter = TaskListsAdapter()
+
+        val adapter = TaskListsAdapter(viewModel::onTaskListClick)
+
         binding.recyclerViewSmartLists.also {
             it.adapter = adapter
             it.layoutManager = LinearLayoutManager(requireContext())
         }
+
         binding.toolbar.menu.also {
             val searchItem = it.findItem(R.id.itemSearch)
             val searchView = searchItem.actionView as SearchView
             searchView.queryHint = getString(R.string.search_hint)
             searchView.setOnQueryTextListener(viewModel)
         }
-        binding.buttonNewList.setOnClickListener { viewModel.addNewList() }
-        binding.buttonTryAgain.setOnClickListener { viewModel.tryAgain() }
+
+        binding.buttonNewList.setOnClickListener { viewModel.openCreationDialog() }
+        /*binding.buttonTryAgain.setOnClickListener { viewModel.tryAgain() }*/
+
         viewModel.observeScreenState().collectWithLifecycle { screenState ->
             binding.progressBar.isVisible = screenState is HomeScreenState.Loading
-            binding.homeLayout.isVisible = screenState is HomeScreenState.Completed
+            binding.homeLayout.isVisible = screenState is HomeScreenState.Success
             binding.errorLayout.isVisible = screenState is HomeScreenState.Error
-            if (screenState is HomeScreenState.Completed) {
+            if (screenState is HomeScreenState.Success) {
                 adapter.submitList(screenState.tasks)
             }
             if (screenState is HomeScreenState.Error) {
-                binding.errorTextView.setText(R.string.item_with_same_names_details)
+                binding.errorTextView.setText(screenState.message)
             }
         }
+
         viewModel.observeEvent().collectWithLifecycle { event ->
             findNavController().navigate(event.directions)
         }

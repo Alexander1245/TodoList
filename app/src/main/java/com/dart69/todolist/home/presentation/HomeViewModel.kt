@@ -1,76 +1,55 @@
 package com.dart69.todolist.home.presentation
 
+import androidx.annotation.StringRes
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.viewModelScope
+import com.dart69.todolist.R
 import com.dart69.todolist.core.coroutines.AvailableDispatchers
 import com.dart69.todolist.core.coroutines.Results
-import com.dart69.todolist.core.data.exceptions.ErrorMapper
-import com.dart69.todolist.core.data.exceptions.RoomException
 import com.dart69.todolist.core.presentation.CommunicatorViewModel
 import com.dart69.todolist.core.presentation.NavigationEvent
 import com.dart69.todolist.core.presentation.ScreenState
 import com.dart69.todolist.core.presentation.Searchable
-import com.dart69.todolist.core.util.Logger
-import com.dart69.todolist.home.domain.TaskListRepository
+import com.dart69.todolist.core.presentation.communication.Receiver
+import com.dart69.todolist.home.data.TaskListRepositoryImpl
 import com.dart69.todolist.home.domain.model.TaskList
+import com.dart69.todolist.splash.domain.usecase.IsAppFirstRunUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import javax.inject.Inject
 
 sealed class HomeScreenState : ScreenState {
     object Loading : HomeScreenState()
 
-    data class Error(val exception: RoomException) : HomeScreenState()
+    data class Error(@StringRes val message: Int) : HomeScreenState()
 
-    data class Completed(val tasks: List<TaskList>) : HomeScreenState()
-
-    companion object {
-
-        fun fromResults(
-            results: Results<List<TaskList>>,
-            errorMapper: ErrorMapper<Throwable, RoomException>
-        ): HomeScreenState =
-            when (results) {
-                is Results.Loading -> Loading
-                is Results.Success -> Completed(results.data)
-                is Results.Error -> Error(errorMapper.map(results.throwable))
-            }
-    }
+    data class Success(val tasks: List<TaskList>) : HomeScreenState()
 }
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val repository: TaskListRepository,
+    private val repository: TaskListRepositoryImpl,
     private val dispatchers: AvailableDispatchers,
-    private val errorMapper: ErrorMapper<Throwable, RoomException>,
-    private val logger: Logger,
+    private val communicator: Receiver<TaskList>,
 ) : CommunicatorViewModel<HomeScreenState, NavigationEvent>(HomeScreenState.Loading), Searchable,
     SearchView.OnQueryTextListener {
-
     init {
         viewModelScope.launch(dispatchers.default) {
-            repository.createSmartLists()
-        }
-
-        viewModelScope.launch(dispatchers.default) {
-            repository.observeTaskLists().collect {
-                screenObserver.sendScreenState(HomeScreenState.fromResults(it, errorMapper))
+            repository.observe().collect {
+                screenObserver.sendScreenState(it.toScreenState())
             }
         }
 
         viewModelScope.launch(dispatchers.default) {
-            screenObserver.observeScreenState().collect {
-                if (it is HomeScreenState.Error) {
-                    logger.log(it.exception)
-                }
+            communicator.receive().collect {
+                repository.createNewList(it)
             }
         }
     }
 
     override fun search(query: String) {
-        viewModelScope.launch(dispatchers.default) {
-            repository.emitSearchQuery(query)
-        }
+        val name = query.trim()
+        repository.updateSearchQuery(name)
     }
 
     override fun onQueryTextSubmit(query: String?): Boolean = false
@@ -80,16 +59,24 @@ class HomeViewModel @Inject constructor(
         return true
     }
 
-    fun addNewList() {
+    fun openCreationDialog() {
         viewModelScope.launch(dispatchers.default) {
             val direction = HomeFragmentDirections.actionHomeFragmentToCreateListDialogFragment()
             eventObserver.sendEvent(NavigationEvent(direction))
         }
     }
 
-    fun tryAgain() {
+    fun onTaskListClick(taskList: TaskList) {
         viewModelScope.launch(dispatchers.default) {
-            repository.emitLastQuery()
+            val direction = HomeFragmentDirections.actionHomeFragmentToTaskListFragment(taskList.name)
+            eventObserver.sendEvent(NavigationEvent(direction))
         }
     }
 }
+
+private fun Results<List<TaskList>>.toScreenState(): HomeScreenState =
+    when (this) {
+        is Results.Loading -> HomeScreenState.Loading
+        is Results.Success -> HomeScreenState.Success(data)
+        is Results.Error -> HomeScreenState.Error(R.string.internal_exception)
+    }

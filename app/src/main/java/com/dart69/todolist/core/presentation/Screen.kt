@@ -5,7 +5,9 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.launch
 
-interface ScreenState
+interface ScreenState {
+    object None : ScreenState
+}
 
 interface ScreenEvent
 

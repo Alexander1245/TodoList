@@ -16,7 +16,14 @@
     <string name="cancel">Cancel</string>
     <string name="create">Create</string>
     <string name="item_already_exists">Item %1s already exists</string>
-    <string name="internal_exception">Internal exception: %1s</string>
+    <string name="internal_exception">Internal error occurred. Please try again.</string>
     <string name="item_with_same_names_details">Do not create task lists with same names. Each name must be unique.</string>
-    <string name="ok_i_get_it">Ok, I get it!</string>
+    <string name="ok_i_get_it">OK, I get it!</string>
+    <string name="very_long_name">Name size must be ≤ %1d </string>
+    <string name="name_cant_be_empty">Name can\'t be empty</string>
+    <string name="rename">Rename</string>
+    <string name="delete">Delete</string>
+    <string name="add_task">Add task</string>
+    <string name="to_do">To Do</string>
+    <string name="completed">Completed</string>
 </resources>

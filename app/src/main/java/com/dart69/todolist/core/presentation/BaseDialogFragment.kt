@@ -25,6 +25,7 @@ abstract class BaseDialogFragment<VB : ViewBinding, VM : ViewModel>(
         val viewModel = createViewModel(viewModelClass, this)
         val binding = createBinding(bindingClass, layoutInflater, null)
         initialize(binding, viewModel)
+
         return AlertDialog.Builder(requireContext())
             .setView(binding.root)
             .show()
