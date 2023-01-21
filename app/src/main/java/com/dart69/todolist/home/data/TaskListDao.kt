@@ -8,9 +8,6 @@ import com.dart69.todolist.home.data.entity.TaskListEntity
 
 @Dao
 interface TaskListDao {
-    @Query("SELECT * FROM TaskListEntity")
-    suspend fun loadAll(): List<TaskListEntity>
-
     @Query("SELECT * FROM TaskListEntity WHERE name LIKE :query")
     suspend fun searchBy(query: String): List<TaskListEntity>
 

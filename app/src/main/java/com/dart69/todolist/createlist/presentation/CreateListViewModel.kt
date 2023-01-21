@@ -1,9 +1,8 @@
 package com.dart69.todolist.createlist.presentation
 
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.dart69.todolist.R
-import com.dart69.todolist.core.coroutines.AvailableDispatchers
+import com.dart69.todolist.core.coroutines.*
 import com.dart69.todolist.core.presentation.CloseScreenEvent
 import com.dart69.todolist.core.presentation.CommunicatorViewModel
 import com.dart69.todolist.core.presentation.ScreenState
@@ -11,8 +10,7 @@ import com.dart69.todolist.core.presentation.communication.Sender
 import com.dart69.todolist.home.domain.NameParser
 import com.dart69.todolist.home.domain.model.TaskList
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -48,8 +46,24 @@ class CreateListViewModel @Inject constructor(
     private val dispatchers: AvailableDispatchers,
     private val nameParser: NameParser,
     private val screenStateFactory: CreateListScreenStateFactory,
+    searcherBuilder: SearcherBuilder<Results<Boolean>>
 ) : CommunicatorViewModel<CreateListScreenState, CloseScreenEvent>(CreateListScreenState.EmptyName) {
-    private var searchJob: Job? = null
+    private val searcher = searcherBuilder.setDataSource(nameParser::matches).build()
+    private val query = MutableStateFlow("")
+
+    init {
+        viewModelScope.launch(dispatchers.default) {
+            query.collect {
+                screenObserver.sendScreenState(CreateListScreenState.Loading)
+            }
+        }
+
+        viewModelScope.launch(dispatchers.default) {
+            searcher.observe().collect {
+                screenObserver.sendScreenState(screenStateFactory.create(query.value, it))
+            }
+        }
+    }
 
     fun close() {
         viewModelScope.launch(dispatchers.default) {
@@ -68,18 +82,8 @@ class CreateListViewModel @Inject constructor(
     }
 
     fun onTextChanged(text: String) {
-        searchJob?.cancel()
-        searchJob = viewModelScope.launch(dispatchers.default) {
-            val name = text.trim()
-            screenObserver.sendScreenState(CreateListScreenState.Loading)
-            delay(DEBOUNCE_TIME)
-            nameParser.matches(name).collect {
-                screenObserver.sendScreenState(screenStateFactory.create(name, it))
-            }
-        }
-    }
-
-    private companion object {
-        const val DEBOUNCE_TIME = 333L
+        val name = text.trim()
+        query.value = name
+        searcher.search(name)
     }
 }

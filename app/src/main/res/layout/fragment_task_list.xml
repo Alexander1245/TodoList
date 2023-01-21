@@ -1,0 +1,44 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="?attr/colorPrimarySurface"
+    tools:context=".tasklist.presentation.TaskListFragment">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:menu="@menu/tasklist_menu"
+        app:navigationIcon="@drawable/ic_arrow_back"
+        app:titleMarginStart="@dimen/title_margin_start"
+        app:titleTextColor="?attr/colorSurface"
+        tools:title="Task List" />
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@android:color/transparent"/>
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <Button
+        android:id="@+id/buttonAddTask"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/add_task_button_margin"
+        android:layout_marginBottom="@dimen/add_task_button_margin"
+        android:backgroundTint="?attr/colorOnSurfaceVariant"
+        android:text="@string/add_task"
+        android:textAlignment="textStart"
+        android:textColor="?attr/colorSurface"
+        app:icon="@drawable/ic_add" />
+
+</LinearLayout>

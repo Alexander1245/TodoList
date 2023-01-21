@@ -7,6 +7,8 @@
         <item name="colorPrimaryVariant">@color/primary_variant</item>
         <item name="colorError">@color/error_color</item>
         <item name="colorPrimaryInverse">@color/primary_inverse</item>
+        <item name="colorPrimarySurface">@color/primary_surface</item>
+        <item name="colorOnSurfaceVariant">@color/on_surface_variant</item>
         <item name="android:layout_gravity">center</item>
     </style>
 

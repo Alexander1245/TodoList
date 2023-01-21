@@ -1,5 +1,8 @@
 package com.dart69.todolist.home.di
 
+import com.dart69.todolist.core.coroutines.VariadicSearcherBuilder
+import com.dart69.todolist.core.coroutines.SearcherBuilder
+import com.dart69.todolist.core.coroutines.Results
 import com.dart69.todolist.core.data.mapper.BidirectionalMapper
 import com.dart69.todolist.core.presentation.communication.Communicator
 import com.dart69.todolist.core.presentation.communication.Receiver
@@ -62,4 +65,10 @@ interface HomeSingletonModule {
     fun bindSender(
         communicator: Communicator<TaskList>
     ): Sender<TaskList>
+
+    @Binds
+    @Singleton
+    fun bindSearcherBuilder(
+        builder: VariadicSearcherBuilder.Default<Results<List<TaskList>>>
+    ): SearcherBuilder<Results<List<TaskList>>>
 }

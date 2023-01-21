@@ -1,6 +1,5 @@
 package com.dart69.todolist.home.presentation
 
-import androidx.annotation.MainThread
 import androidx.annotation.StringRes
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.viewModelScope
@@ -12,13 +11,11 @@ import com.dart69.todolist.core.presentation.NavigationEvent
 import com.dart69.todolist.core.presentation.ScreenState
 import com.dart69.todolist.core.presentation.Searchable
 import com.dart69.todolist.core.presentation.communication.Receiver
-import com.dart69.todolist.home.domain.TaskListRepository
+import com.dart69.todolist.home.data.TaskListRepositoryImpl
 import com.dart69.todolist.home.domain.model.TaskList
+import com.dart69.todolist.splash.domain.usecase.IsAppFirstRunUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.flatMapConcat
 import javax.inject.Inject
 
 sealed class HomeScreenState : ScreenState {
@@ -29,44 +26,30 @@ sealed class HomeScreenState : ScreenState {
     data class Success(val tasks: List<TaskList>) : HomeScreenState()
 }
 
-@OptIn(FlowPreview::class)
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val repository: TaskListRepository,
+    private val repository: TaskListRepositoryImpl,
     private val dispatchers: AvailableDispatchers,
     private val communicator: Receiver<TaskList>,
 ) : CommunicatorViewModel<HomeScreenState, NavigationEvent>(HomeScreenState.Loading), Searchable,
     SearchView.OnQueryTextListener {
-    private val lastQuery = MutableStateFlow("")
-    private var searchJob: Job? = null
-
     init {
         viewModelScope.launch(dispatchers.default) {
-            communicator.receive().flatMapConcat {
-                repository.createList(it)
-            }.collect {
+            repository.observe().collect {
                 screenObserver.sendScreenState(it.toScreenState())
             }
         }
 
         viewModelScope.launch(dispatchers.default) {
-            repository.createSmartLists().collect()
-            lastQuery.flatMapConcat {
-                repository.search(it)
-            }.collect {
-                screenObserver.sendScreenState(it.toScreenState())
+            communicator.receive().collect {
+                repository.createNewList(it)
             }
         }
     }
 
-    @MainThread
     override fun search(query: String) {
         val name = query.trim()
-        searchJob?.cancel()
-        searchJob = viewModelScope.launch(dispatchers.default) {
-            delay(DEBOUNCE_TIME)
-            lastQuery.emit(name)
-        }
+        repository.updateSearchQuery(name)
     }
 
     override fun onQueryTextSubmit(query: String?): Boolean = false
@@ -83,8 +66,11 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    companion object {
-        const val DEBOUNCE_TIME = 500L
+    fun onTaskListClick(taskList: TaskList) {
+        viewModelScope.launch(dispatchers.default) {
+            val direction = HomeFragmentDirections.actionHomeFragmentToTaskListFragment(taskList.name)
+            eventObserver.sendEvent(NavigationEvent(direction))
+        }
     }
 }
 
