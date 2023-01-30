@@ -2,14 +2,26 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item
-        android:id="@+id/itemRename"
-        android:icon="@drawable/ic_rename"
-        android:title="@string/rename"
-        app:showAsAction="ifRoom" />
-    <item
-        android:id="@+id/itemDelete"
-        android:icon="@drawable/ic_delete"
-        android:title="@string/delete"
-        app:showAsAction="ifRoom" />
+    <group android:id="@+id/modificationsGroup">
+        <item
+            android:id="@+id/itemDelete"
+            android:icon="@drawable/ic_delete"
+            android:title="@string/delete"
+            app:showAsAction="ifRoom" />
+    </group>
+
+    <group android:id="@+id/tasksGroup">
+        <item
+            android:id="@+id/itemFilter"
+            android:title="@string/filter">
+            <menu>
+                <item
+                    android:id="@+id/itemToDo"
+                    android:title="@string/to_do" />
+                <item
+                    android:id="@+id/itemCompleted"
+                    android:title="@string/completed" />
+            </menu>
+        </item>
+    </group>
 </menu>

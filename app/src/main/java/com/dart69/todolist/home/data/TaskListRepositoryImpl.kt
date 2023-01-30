@@ -9,8 +9,8 @@ import com.dart69.todolist.home.domain.model.TaskList
 import javax.inject.Inject
 
 class TaskListRepositoryImpl @Inject constructor(
-    private val dataSource: TasksLocalDataSource,
-    searcherBuilder: SearcherBuilder<Results<List<TaskList>>>,
+    private val dataSource: TaskListLocalDataSource,
+    searcherBuilder: SearcherBuilder<Results<List<TaskList>>, String>,
 ) : TaskListRepository {
     private val searcher = searcherBuilder.setDataSource {
         resultsFlowOf { dataSource.searchBy(it) }
@@ -28,6 +28,14 @@ class TaskListRepositoryImpl @Inject constructor(
 
     override suspend fun createNewList(taskList: TaskList) {
         dataSource.insert(taskList)
+        searcher.forceResearch()
+    }
+
+    override suspend fun deleteTaskListByName(name: String) {
+        if(name in TaskList.PREDEFINED.map { it.name }) {
+            error("Can't delete predefined task list.")
+        }
+        dataSource.deleteTaskListByName(name)
         searcher.forceResearch()
     }
 }

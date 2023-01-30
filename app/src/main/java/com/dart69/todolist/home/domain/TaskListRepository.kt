@@ -12,6 +12,8 @@ interface TaskListRepository {
 
     suspend fun createNewList(taskList: TaskList)
 
+    suspend fun deleteTaskListByName(name: String)
+
     companion object {
         const val MAX_NAME_LENGTH = 20
     }

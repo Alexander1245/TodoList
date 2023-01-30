@@ -53,9 +53,9 @@
         tools:layout="@layout/fragment_create_list" />
     <fragment
         android:id="@+id/taskListFragment"
-        android:name="com.dart69.todolist.tasklist.presentation.TaskListFragment"
+        android:name="com.dart69.todolist.task.presentation.TasksFragment"
         android:label="fragment_task_list"
-        tools:layout="@layout/fragment_task_list" >
+        tools:layout="@layout/fragment_tasks" >
         <argument
             android:name="taskListName"
             app:argType="string" />

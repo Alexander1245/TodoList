@@ -18,6 +18,11 @@
         <item name="android:textAlignment">textStart</item>
     </style>
 
+    <style name="SingleLineDescription" parent="SingleLineTextView">
+        <item name="android:textColor">?attr/colorOnSurface</item>
+        <item name="android:alpha">0.6</item>
+    </style>
+
     <style name="DialogTitleTextView" parent="SingleLineTextView">
         <item name="android:textSize">@dimen/dialog_title_text_size</item>
     </style>

@@ -22,13 +22,15 @@ abstract class BaseFragment<VB : ViewBinding, VM : ViewModel>(
     override fun requireLifecycleScope(): LifecycleCoroutineScope =
         viewLifecycleOwner.lifecycleScope
 
+    protected open fun requireStoreOwner(): ViewModelStoreOwner = this
+
     @Suppress("UNCHECKED_CAST")
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        viewModel = createViewModel(viewModelClass, this)
+        viewModel = createViewModel(viewModelClass, requireStoreOwner())
         binding = createBinding(bindingClass, inflater, container)
         return binding.root
     }

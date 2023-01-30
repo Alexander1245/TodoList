@@ -6,6 +6,5 @@ import com.dart69.todolist.core.data.EntityModel
 
 @Entity
 data class TaskListEntity(
-    @PrimaryKey(autoGenerate = true) val id: Long,
-    val name: String,
+    @PrimaryKey val name: String,
 ) : EntityModel

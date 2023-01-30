@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.dart69.todolist.core.data.database.AppDataBase
 import com.dart69.todolist.core.data.database.migrations.From1To2
+import com.dart69.todolist.core.data.database.migrations.From4To5
 import com.dart69.todolist.core.util.Logger
 import dagger.Module
 import dagger.Provides
@@ -18,6 +19,10 @@ import javax.inject.Singleton
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
 annotation class ApplicationScope
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class InitialQuery
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -35,10 +40,15 @@ object CoreProvidersModule {
         .databaseBuilder(context, AppDataBase::class.java, AppDataBase.NAME)
         .addMigrations(
             From1To2(),
+            From4To5(),
         )
         .build()
 
     @Provides
     @Singleton
     fun provideLogger(): Logger = Logger.Console
+
+    @Provides
+    @InitialQuery
+    fun provideStringQuery(): String = ""
 }

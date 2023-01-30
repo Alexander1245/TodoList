@@ -20,6 +20,6 @@ interface CreateListModule {
 
     @Binds
     fun bindSearcherBuilder(
-        builder: VariadicSearcherBuilder.Default<Results<Boolean>>
-    ): SearcherBuilder<Results<Boolean>>
+        builder: VariadicSearcherBuilder.Default<Results<Boolean>, String>
+    ): SearcherBuilder<Results<Boolean>, String>
 }

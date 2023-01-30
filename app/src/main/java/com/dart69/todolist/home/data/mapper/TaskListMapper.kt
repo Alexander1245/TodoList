@@ -11,9 +11,9 @@ class TaskListMapper @Inject constructor() : BidirectionalMapper<TaskListEntity,
         when (entity.name) {
             TaskList.Tasks.name -> TaskList.Tasks
             TaskList.Important.name -> TaskList.Important
-            else -> TaskList.UserDefined(entity.id, entity.name)
+            else -> TaskList.UserDefined(entity.name)
         }
 
     override fun toEntity(model: TaskList): TaskListEntity =
-        TaskListEntity(model.id, model.name)
+        TaskListEntity(model.name)
 }
