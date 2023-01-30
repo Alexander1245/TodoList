@@ -1,7 +1,8 @@
 package com.dart69.todolist.createlist.presentation
 
+import androidx.core.os.bundleOf
 import androidx.core.widget.addTextChangedListener
-import androidx.navigation.fragment.findNavController
+import androidx.fragment.app.setFragmentResult
 import com.dart69.todolist.core.presentation.BaseDialogFragment
 import com.dart69.todolist.databinding.FragmentCreateListBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -12,6 +13,7 @@ class CreateListDialogFragment : BaseDialogFragment<FragmentCreateListBinding, C
 ) {
 
     override fun initialize(binding: FragmentCreateListBinding, viewModel: CreateListViewModel) {
+
         binding.cancelButton.setOnClickListener {
             viewModel.close()
         }
@@ -25,7 +27,10 @@ class CreateListDialogFragment : BaseDialogFragment<FragmentCreateListBinding, C
         }
 
         viewModel.observeEvent().collectWithLifecycle {
-            findNavController().navigateUp()
+            if (it is CreateListEvents.CreateAndClose) {
+                setFragmentResult(REQUEST_KEY, bundleOf(TASK_LIST_ARG to it.name))
+            }
+            dialog?.cancel()
         }
         viewModel.observeScreenState().collectWithLifecycle {
             binding.textInputLayout.isErrorEnabled = it is CreateListScreenState.InvalidName
@@ -34,5 +39,10 @@ class CreateListDialogFragment : BaseDialogFragment<FragmentCreateListBinding, C
             }
             binding.createButton.isEnabled = it.isCreateButtonEnabled
         }
+    }
+
+    companion object {
+        const val REQUEST_KEY = "CREATE_TASK_LIST_KEY"
+        const val TASK_LIST_ARG = "CREATE_TASK_LIST_ARG"
     }
 }

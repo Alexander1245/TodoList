@@ -7,7 +7,7 @@ import com.dart69.todolist.home.domain.model.TaskList
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-interface TasksLocalDataSource {
+interface TaskListLocalDataSource {
     suspend fun insert(taskList: TaskList)
 
     suspend fun upsert(taskLists: List<TaskList>)
@@ -16,11 +16,13 @@ interface TasksLocalDataSource {
 
     suspend fun findByName(name: String): TaskList?
 
+    suspend fun deleteTaskListByName(name: String)
+
     class Default @Inject constructor(
         private val mapper: BidirectionalMapper<TaskListEntity, TaskList>,
         private val dispatchers: AvailableDispatchers,
         private val dao: TaskListDao,
-    ): TasksLocalDataSource {
+    ): TaskListLocalDataSource {
         private val queryMapper: (String) -> String = { "%$it%" }
 
         override suspend fun insert(taskList: TaskList) = withContext(dispatchers.io) {
@@ -37,6 +39,10 @@ interface TasksLocalDataSource {
 
         override suspend fun findByName(name: String): TaskList? = withContext(dispatchers.io) {
             dao.findByName(name)?.let(mapper::toModel)
+        }
+
+        override suspend fun deleteTaskListByName(name: String) = withContext(dispatchers.io) {
+            dao.deleteListByName(name)
         }
     }
 }

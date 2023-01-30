@@ -1,43 +1,46 @@
 package com.dart69.todolist.core.coroutines
 
+import com.dart69.todolist.core.di.InitialQuery
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 import javax.inject.Inject
 
-interface SearcherBuilder<T> {
-    fun setDataSource(source: suspend (String) -> Flow<T>): SearcherBuilder<T>
+interface SearcherBuilder<T, K> {
+    fun setDataSource(source: suspend (K) -> Flow<T>): SearcherBuilder<T, K>
 
-    fun build(): Searcher<T>
+    fun build(): DebounceSearcher<T, K>
 }
 
-interface VariadicSearcherBuilder<T> : SearcherBuilder<T> {
-    override fun setDataSource(source: suspend (String) -> Flow<T>): VariadicSearcherBuilder<T>
+interface VariadicSearcherBuilder<T, K> : SearcherBuilder<T, K> {
+    fun setInitialQuery(initialQuery: K): VariadicSearcherBuilder<T, K>
 
-    fun setInitialQuery(query: String): VariadicSearcherBuilder<T>
+    fun setDebounceTime(mills: Long): VariadicSearcherBuilder<T, K>
 
-    fun setDebouncePeriod(period: Long): VariadicSearcherBuilder<T>
+    override fun setDataSource(source: suspend (K) -> Flow<T>): VariadicSearcherBuilder<T, K>
 
-    class Default<T> @Inject constructor() : VariadicSearcherBuilder<T> {
-        private var initialQuery = ""
+    class Default<T, K> @Inject constructor(
+        @InitialQuery initial: K
+    ) : VariadicSearcherBuilder<T, K> {
+        private var initialQuery: K = initial
         private var debouncePeriod = 500L
-        private var dataSource: suspend (String) -> Flow<T> = { emptyFlow() }
+        private var dataSource: suspend (K) -> Flow<T> = { emptyFlow() }
 
-        override fun setInitialQuery(query: String): VariadicSearcherBuilder<T> =
+        override fun setInitialQuery(initialQuery: K): VariadicSearcherBuilder<T, K> =
             apply {
-                initialQuery = query
+                this.initialQuery = initialQuery
             }
 
-        override fun setDebouncePeriod(period: Long): VariadicSearcherBuilder<T> =
+        override fun setDebounceTime(mills: Long): VariadicSearcherBuilder<T, K> =
             apply {
-                debouncePeriod = period
+                debouncePeriod = mills
             }
 
-        override fun setDataSource(source: suspend (String) -> Flow<T>): VariadicSearcherBuilder<T> =
+        override fun setDataSource(source: suspend (K) -> Flow<T>): VariadicSearcherBuilder<T, K> =
             apply {
                 dataSource = source
             }
 
-        override fun build(): Searcher<T> =
-            Searcher(initialQuery, debouncePeriod, dataSource)
+        override fun build(): DebounceSearcher<T, K> =
+            CommonSearcher(initialQuery, debouncePeriod, dataSource)
     }
 }

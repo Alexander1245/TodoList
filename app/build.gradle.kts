@@ -30,8 +30,8 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
-    buildFeatures {
-        viewBinding = true
+    viewBinding {
+        enable = true
     }
 }
 
@@ -59,4 +59,7 @@ dependencies {
 
 kapt {
     correctErrorTypes = true
+    arguments {
+        arg("room.schemaLocation", "$projectDir/schemas")
+    }
 }

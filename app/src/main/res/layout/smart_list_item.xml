@@ -5,6 +5,7 @@
     android:layout_height="@dimen/smart_list_item_height"
     android:layout_marginHorizontal="@dimen/smart_list_item_horizontal_margin"
     android:orientation="horizontal"
+    android:background="?android:attr/selectableItemBackground"
     android:gravity="center">
 
     <ImageView

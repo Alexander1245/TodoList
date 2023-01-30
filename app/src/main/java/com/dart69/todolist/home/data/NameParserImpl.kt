@@ -10,7 +10,7 @@ import com.dart69.todolist.home.domain.TaskListRepository
 import javax.inject.Inject
 
 class NameParserImpl @Inject constructor(
-    private val localDataSource: TasksLocalDataSource,
+    private val localDataSource: TaskListLocalDataSource,
 ) : NameParser {
 
     override fun matches(name: String): ResultsFlow<Boolean> = resultsFlowOf {

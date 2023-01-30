@@ -2,17 +2,23 @@ package com.dart69.todolist.createlist.presentation
 
 import androidx.lifecycle.viewModelScope
 import com.dart69.todolist.R
-import com.dart69.todolist.core.coroutines.*
-import com.dart69.todolist.core.presentation.CloseScreenEvent
+import com.dart69.todolist.core.coroutines.AvailableDispatchers
+import com.dart69.todolist.core.coroutines.Results
+import com.dart69.todolist.core.coroutines.SearcherBuilder
 import com.dart69.todolist.core.presentation.CommunicatorViewModel
+import com.dart69.todolist.core.presentation.ScreenEvent
 import com.dart69.todolist.core.presentation.ScreenState
-import com.dart69.todolist.core.presentation.communication.Sender
 import com.dart69.todolist.home.domain.NameParser
-import com.dart69.todolist.home.domain.model.TaskList
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+
+sealed class CreateListEvents : ScreenEvent {
+    object CloseScreen : CreateListEvents()
+
+    data class CreateAndClose(val name: String) : CreateListEvents()
+}
 
 sealed class CreateListScreenState(
     val isCreateButtonEnabled: Boolean,
@@ -42,12 +48,11 @@ sealed class CreateListScreenState(
 
 @HiltViewModel
 class CreateListViewModel @Inject constructor(
-    private val communicator: Sender<TaskList>,
     private val dispatchers: AvailableDispatchers,
     private val nameParser: NameParser,
     private val screenStateFactory: CreateListScreenStateFactory,
-    searcherBuilder: SearcherBuilder<Results<Boolean>>
-) : CommunicatorViewModel<CreateListScreenState, CloseScreenEvent>(CreateListScreenState.EmptyName) {
+    searcherBuilder: SearcherBuilder<Results<Boolean>, String>
+) : CommunicatorViewModel<CreateListScreenState, CreateListEvents>(CreateListScreenState.EmptyName) {
     private val searcher = searcherBuilder.setDataSource(nameParser::matches).build()
     private val query = MutableStateFlow("")
 
@@ -67,7 +72,7 @@ class CreateListViewModel @Inject constructor(
 
     fun close() {
         viewModelScope.launch(dispatchers.default) {
-            eventObserver.sendEvent(CloseScreenEvent)
+            eventObserver.sendEvent(CreateListEvents.CloseScreen)
         }
     }
 
@@ -76,7 +81,7 @@ class CreateListViewModel @Inject constructor(
         viewModelScope.launch(dispatchers.default) {
             val state = observeScreenState().value
             if (state is CreateListScreenState.CorrectName) {
-                communicator.send(TaskList(state.name))
+                eventObserver.sendEvent(CreateListEvents.CreateAndClose(state.name))
             }
         }
     }

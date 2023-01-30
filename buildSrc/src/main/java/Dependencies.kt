@@ -3,7 +3,7 @@ object Android : AppPluginOwner, ImplementationsOwner, TopLevelPluginOwner {
     private const val APPCOMPAT_VERSION = "1.5.1"
     private const val LEGACY_SUPPORT_VERSION = "1.0.0"
 
-    private const val ANDROID_LIB_VERSION = "7.3.1"
+    private const val ANDROID_LIB_VERSION = "7.4.0"
 
     override val topLevelPlugins: List<Pair<String, String>> = listOf(
         "com.android.application" to ANDROID_LIB_VERSION,
@@ -22,7 +22,7 @@ object Android : AppPluginOwner, ImplementationsOwner, TopLevelPluginOwner {
 }
 
 object Material : ImplementationsOwner {
-    private const val VERSION = "1.8.0-rc01"
+    private const val VERSION = "1.8.0"
 
     override val implementations: List<String> = listOf(
         "com.google.android.material:material:$VERSION",

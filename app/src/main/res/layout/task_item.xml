@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="@dimen/divider_horizontal_margins"
+    android:elevation="@dimen/card_elevation"
+    app:cardCornerRadius="@dimen/task_card_radius">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/checkBoxIsCompleted"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/checkbox_margin"
+            tools:checked="true" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/divider_vertical_margins"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textViewTaskName"
+                style="@style/BoldSingleLineTextView"
+                android:layout_width="match_parent"
+                tools:text="Task list" />
+
+            <TextView
+                android:id="@+id/textViewDueDate"
+                style="@style/SingleLineDescription"
+                android:layout_width="match_parent"
+                tools:text="Today - Note" />
+        </LinearLayout>
+
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/checkBoxIsImportant"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:buttonCompat="@drawable/star_rate_checkbox"
+            app:buttonTint="?attr/colorError"
+            tools:checked="true" />
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

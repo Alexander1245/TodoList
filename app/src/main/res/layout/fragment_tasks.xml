@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?attr/colorPrimarySurface"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:menu="@menu/tasklist_menu"
+            app:navigationIcon="@drawable/ic_arrow_back"
+            app:titleMarginStart="@dimen/title_margin_start"
+            app:titleTextColor="?attr/colorSurface"
+            tools:title="Task List" />
+
+       <androidx.recyclerview.widget.RecyclerView
+           android:id="@+id/recyclerView"
+           android:layout_weight="1"
+           android:layout_width="match_parent"
+           android:layout_height="0dp"/>
+
+        <Button
+            android:id="@+id/buttonAddTask"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/add_task_button_margin"
+            android:layout_marginBottom="@dimen/add_task_button_margin"
+            android:backgroundTint="?attr/colorOnSurfaceVariant"
+            android:text="@string/add_task"
+            android:textAlignment="textStart"
+            android:textColor="?attr/colorSurface"
+            app:icon="@drawable/ic_add"
+            tools:ignore="TextContrastCheck" />
+
+        <LinearLayout
+            android:id="@+id/inputLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.google.android.material.checkbox.MaterialCheckBox
+                android:id="@+id/checkBoxIsCompleted"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/editTextTaskName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:imeOptions="actionDone"
+                android:inputType="textPersonName"
+                tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <include android:id="@+id/progressLayout" layout="@layout/progress_layout"/>
+</FrameLayout>
+

@@ -1,5 +1,6 @@
 package com.dart69.todolist.home.presentation
 
+import android.util.Log
 import androidx.annotation.StringRes
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.viewModelScope
@@ -13,9 +14,8 @@ import com.dart69.todolist.core.presentation.Searchable
 import com.dart69.todolist.core.presentation.communication.Receiver
 import com.dart69.todolist.home.data.TaskListRepositoryImpl
 import com.dart69.todolist.home.domain.model.TaskList
-import com.dart69.todolist.splash.domain.usecase.IsAppFirstRunUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.*
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 sealed class HomeScreenState : ScreenState {
@@ -30,20 +30,30 @@ sealed class HomeScreenState : ScreenState {
 class HomeViewModel @Inject constructor(
     private val repository: TaskListRepositoryImpl,
     private val dispatchers: AvailableDispatchers,
-    private val communicator: Receiver<TaskList>,
 ) : CommunicatorViewModel<HomeScreenState, NavigationEvent>(HomeScreenState.Loading), Searchable,
     SearchView.OnQueryTextListener {
     init {
         viewModelScope.launch(dispatchers.default) {
             repository.observe().collect {
+                Log.d("Home", "results $it")
+                if (it is Results.Error) {
+                    Log.d("Home", "error ${it.throwable}")
+                }
                 screenObserver.sendScreenState(it.toScreenState())
             }
         }
+    }
 
+    fun createNewList(name: String) {
         viewModelScope.launch(dispatchers.default) {
-            communicator.receive().collect {
-                repository.createNewList(it)
-            }
+            repository.createNewList(TaskList(name))
+        }
+    }
+
+    fun deleteTaskList(name: String) {
+        viewModelScope.launch(dispatchers.default) {
+            screenObserver.sendScreenState(HomeScreenState.Loading)
+            repository.deleteTaskListByName(name)
         }
     }
 
@@ -68,7 +78,9 @@ class HomeViewModel @Inject constructor(
 
     fun onTaskListClick(taskList: TaskList) {
         viewModelScope.launch(dispatchers.default) {
-            val direction = HomeFragmentDirections.actionHomeFragmentToTaskListFragment(taskList.name)
+            val direction = HomeFragmentDirections.actionHomeFragmentToTaskListFragment(
+                taskList.name,
+            )
             eventObserver.sendEvent(NavigationEvent(direction))
         }
     }

@@ -5,6 +5,6 @@ import com.dart69.todolist.databinding.FragmentCompletedBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class CompletedFragment: BaseFragment<FragmentCompletedBinding, CompletedViewModel>(
+class CompletedFragment : BaseFragment<FragmentCompletedBinding, CompletedViewModel>(
     FragmentCompletedBinding::class, CompletedViewModel::class
 )

@@ -1,9 +1,6 @@
 package com.dart69.todolist.home.data
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
-import androidx.room.Upsert
+import androidx.room.*
 import com.dart69.todolist.home.data.entity.TaskListEntity
 
 @Dao
@@ -19,4 +16,7 @@ interface TaskListDao {
 
     @Upsert
     suspend fun upsert(taskLists: List<TaskListEntity>)
+
+    @Query("DELETE FROM TaskListEntity WHERE name = :name")
+    suspend fun deleteListByName(name: String)
 }

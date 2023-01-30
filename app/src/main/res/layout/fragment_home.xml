@@ -50,7 +50,7 @@
             android:layout_height="0dp"
             android:layout_weight="1" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/buttonNewList"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
