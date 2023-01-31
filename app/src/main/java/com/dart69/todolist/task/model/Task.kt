@@ -2,6 +2,7 @@ package com.dart69.todolist.task.model
 
 import com.dart69.todolist.core.domain.Identifiable
 import com.dart69.todolist.core.domain.Model
+import com.dart69.todolist.home.domain.model.TaskList
 
 data class Task(
     val id: Long,
@@ -16,7 +17,7 @@ data class Task(
         name = name,
         listName = listName,
         dueDate = "",
-        isImportant = false,
+        isImportant = listName == TaskList.Important.name,
         isCompleted = isCompleted,
     )
 
