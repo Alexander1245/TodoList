@@ -26,10 +26,9 @@ class TaskListsViewHolder(
     private val onItemClick: (TaskList) -> Unit,
 ) : IdentifiableViewHolder<TaskList, SmartListItemBinding>(binding) {
 
-    override fun bind(items: List<TaskList>) {
-        val taskList = items.currentItem
-        binding.labelTextView.text = taskList.name
-        binding.listIcon.setImageResource(taskList.icon)
-        binding.root.setOnClickListener { onItemClick(taskList) }
+    override fun bind(item: TaskList) {
+        binding.labelTextView.text = item.name
+        binding.listIcon.setImageResource(item.icon)
+        binding.root.setOnClickListener { onItemClick(item) }
     }
 }

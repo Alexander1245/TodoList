@@ -15,6 +15,7 @@ object AppDependencies : DependenciesOwner {
         RecyclerView,
         Room,
         Paging,
+        Parcelize,
     )
 
     override val implementations: List<String> =

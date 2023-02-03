@@ -2,9 +2,11 @@ package com.dart69.todolist.task.presentation
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.TextView
 import com.dart69.todolist.core.presentation.recyclerview.IdentifiableAdapter
 import com.dart69.todolist.core.presentation.recyclerview.IdentifiableViewHolder
 import com.dart69.todolist.databinding.TaskItemBinding
+import com.dart69.todolist.task.domain.AvailableDates
 import com.dart69.todolist.task.model.Task
 
 class TasksAdapter(
@@ -22,17 +24,19 @@ class TasksViewHolder(
     private val callbacks: Callbacks,
 ) : IdentifiableViewHolder<Task, TaskItemBinding>(binding) {
 
-    override fun bind(items: List<Task>) {
-        val task = items.currentItem
-        binding.textViewTaskName.text = task.name
-        binding.textViewDueDate.text = task.dueDate
+    override fun bind(item: Task) {
+        binding.textViewTaskName.text = item.name
+        binding.textViewDueDate.setText(item.dueDate)
+        binding.root.setOnClickListener {
+            callbacks.onTaskClick(item)
+        }
         binding.checkBoxIsImportant.apply {
-            isChecked = task.isImportant
-            setOnClickListener { callbacks.onImportantClick(task) }
+            isChecked = item.isImportant
+            setOnClickListener { callbacks.onImportantClick(item) }
         }
         binding.checkBoxIsCompleted.apply {
-            isChecked = task.isCompleted
-            setOnClickListener { callbacks.onCompletedClick(task) }
+            isChecked = item.isCompleted
+            setOnClickListener { callbacks.onCompletedClick(item) }
         }
     }
 
@@ -40,5 +44,14 @@ class TasksViewHolder(
         fun onCompletedClick(task: Task)
 
         fun onImportantClick(task: Task)
+
+        fun onTaskClick(task: Task)
     }
+}
+
+fun TextView.setText(date: AvailableDates?) {
+    val text = if(date is AvailableDates.LabelOwner) {
+        context.getString(date.label)
+    } else date?.date?.toString().orEmpty()
+    setText(text)
 }

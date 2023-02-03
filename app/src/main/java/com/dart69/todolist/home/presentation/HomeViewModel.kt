@@ -78,9 +78,9 @@ class HomeViewModel @Inject constructor(
 
     fun onTaskListClick(taskList: TaskList) {
         viewModelScope.launch(dispatchers.default) {
-            val direction = HomeFragmentDirections.actionHomeFragmentToTaskListFragment(
-                taskList.name,
-            )
+            Log.d("Tasks", "onTaskListClick: $taskList")
+            val name = taskList.name
+            val direction = HomeFragmentDirections.actionHomeFragmentToTaskListFragment(name)
             eventObserver.sendEvent(NavigationEvent(direction))
         }
     }

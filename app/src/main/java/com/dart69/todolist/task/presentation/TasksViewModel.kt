@@ -1,11 +1,12 @@
 package com.dart69.todolist.task.presentation
 
+import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.NavDirections
 import com.dart69.todolist.core.coroutines.AvailableDispatchers
 import com.dart69.todolist.core.coroutines.Results
 import com.dart69.todolist.core.coroutines.mapResults
-import com.dart69.todolist.core.domain.buildDebouncer
 import com.dart69.todolist.core.presentation.CommunicatorViewModel
 import com.dart69.todolist.core.presentation.ScreenEvent
 import com.dart69.todolist.core.presentation.ScreenState
@@ -25,9 +26,10 @@ data class TasksScreenState(
     val isInputVisible: Boolean,
     val isInputEnabled: Boolean,
     val isProgressVisible: Boolean,
-    val isModificationsAllowed: Boolean = listName !in TaskList.PREDEFINED.map { it.name },
     val tasks: List<Task>,
 ) : ScreenState {
+    val isModificationsAllowed: Boolean
+        get() = listName !in TaskList.PREDEFINED.map { it.name }
 
     companion object {
         fun from(
@@ -50,6 +52,8 @@ sealed class TasksEvents : ScreenEvent {
     object ClearTextInput : TasksEvents()
 
     data class DeleteTaskList(val name: String) : TasksEvents()
+
+    data class NavigateTo(val directions: NavDirections) : TasksEvents()
 }
 
 sealed class Filter {
@@ -88,6 +92,11 @@ class TasksViewModel @Inject constructor(
                     it.filter(filter.provide())
                 }
             }.collect {
+                Log.d("Tasks", it.mapResults {
+                    it.map {
+                        it.name to it.dueDate
+                    }
+                }.toString())
                 val isReadyToClearInput =
                     screenObserver.currentState.isInputVisible && it is Results.Success
                 screenObserver.updateScreenState { screenState ->
@@ -136,6 +145,16 @@ class TasksViewModel @Inject constructor(
     override fun onImportantClick(task: Task) {
         viewModelScope.launch(dispatchers.default) {
             repository.toggleImportant(task)
+        }
+    }
+
+    override fun onTaskClick(task: Task) {
+        viewModelScope.launch(dispatchers.default) {
+            eventObserver.sendEvent(
+                TasksEvents.NavigateTo(
+                    TasksFragmentDirections.actionTaskListFragmentToTaskDetailsFragment(task)
+                )
+            )
         }
     }
 

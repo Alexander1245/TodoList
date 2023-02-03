@@ -59,10 +59,15 @@
 
     <style name="LargeDivider" parent="Widget.Material3.MaterialDivider">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_height">@dimen/divider_height</item>
         <item name="android:layout_marginStart">@dimen/divider_horizontal_margins</item>
         <item name="android:layout_marginEnd">@dimen/divider_horizontal_margins</item>
-        <item name="android:layout_marginTop">@dimen/divider_vertical_margins</item>
-        <item name="android:layout_marginBottom">@dimen/divider_vertical_margins</item>
+    </style>
+
+    <style name="ImageIcon">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:padding">@dimen/calendar_padding</item>
+        <item name="android:contentDescription">@string/icon</item>
     </style>
 </resources>
