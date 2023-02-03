@@ -12,6 +12,8 @@ interface TasksLocalDataSource {
 
     suspend fun findByListName(listName: String): List<Task>
 
+    suspend fun findById(id: Long): Task?
+
     suspend fun findByImportant(isImportant: Boolean): List<Task>
 
     suspend fun insert(task: Task)
@@ -34,6 +36,11 @@ interface TasksLocalDataSource {
         override suspend fun findByListName(listName: String): List<Task> =
             withContext(dispatchers.io) {
                 dao.loadByListName(listName).map(mapper::toModel)
+            }
+
+        override suspend fun findById(id: Long): Task? =
+            withContext(dispatchers.io) {
+                dao.findById(id)?.let(mapper::toModel)
             }
 
         override suspend fun findByImportant(isImportant: Boolean): List<Task> =

@@ -38,9 +38,18 @@ class TasksRepositoryImpl @Inject constructor(
     override fun observe(): ResultsFlow<List<Task>> =
         searcher.observe()
 
+    override fun findTaskById(id: Long): ResultsFlow<Task> = resultsFlowOf {
+        dataSource.findById(id) ?: throw NonExistingTaskError(id)
+    }
     override suspend fun createNewTask(task: Task) {
         searcher.withResearch {
             dataSource.insert(task)
+        }
+    }
+
+    override suspend fun editTask(task: Task) {
+        searcher.withResearch {
+            dataSource.update(task)
         }
     }
 

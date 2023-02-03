@@ -28,7 +28,7 @@ sealed class TaskList(
     ) : TaskList(R.drawable.ic_user_defined_list)
 
     companion object {
-        val PREDEFINED = listOf(
+        val PREDEFINED get() = listOf(
             Important,
             Tasks,
         )

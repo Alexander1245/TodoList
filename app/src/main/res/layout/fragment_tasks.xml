@@ -11,14 +11,16 @@
         android:background="?attr/colorPrimarySurface"
         android:orientation="vertical">
 
-        <androidx.appcompat.widget.Toolbar
+        <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:menu="@menu/tasklist_menu"
             app:navigationIcon="@drawable/ic_arrow_back"
             app:titleMarginStart="@dimen/title_margin_start"
-            app:titleTextColor="?attr/colorSurface"
+            app:titleTextColor="?attr/colorOnPrimary"
+            app:navigationIconTint="?attr/colorOnPrimary"
+
             tools:title="Task List" />
 
        <androidx.recyclerview.widget.RecyclerView

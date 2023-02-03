@@ -179,3 +179,9 @@ object Paging : ImplementationsOwner, TestImplementationsOwner {
         "androidx.paging:paging-common:$VERSION",
     )
 }
+
+object Parcelize : AppPluginOwner {
+    override val plugins: List<String> = listOf(
+        "kotlin-parcelize"
+    )
+}

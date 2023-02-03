@@ -10,11 +10,13 @@ import com.dart69.todolist.task.data.TasksDao
 
 @Database(
     entities = [TaskListEntity::class, TaskEntity::class],
-    version = 6,
+    version = 8,
     autoMigrations = [
         AutoMigration(2, 3),
         AutoMigration(3, 4),
         AutoMigration(5, 6),
+        AutoMigration(6, 7),
+        AutoMigration(7, 8),
     ],
     exportSchema = true,
 )

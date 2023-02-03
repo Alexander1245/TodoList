@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/itemToday"
+        android:icon="@drawable/ic_calendar_variant"
+        android:title="@string/today"/>
+    <item
+        android:id="@+id/itemTomorrow"
+        android:icon="@drawable/ic_calendar_variant"
+        android:title="@string/tomorrow"/>
+    <item
+        android:id="@+id/itemNextWeek"
+        android:icon="@drawable/ic_calendar_variant"
+        android:title="@string/next_week"/>
+
+    <item
+        android:id="@+id/itemPickDate"
+        android:icon="@drawable/ic_calendar_variant"
+        android:title="@string/pick_a_date"/>
+</menu>

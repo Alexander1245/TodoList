@@ -37,4 +37,7 @@ suspend fun <T> MutableResultsStateFlow<T>.emitResults(block: suspend () -> T) {
     emitAll(resultsFlowOf(block))
 }
 
+fun <T> MutableResultsStateFlow<T>.updateResults(updater: (T) -> T) =
+    update { results -> results.mapResults(updater) }
+
 fun <T> Results<T>.takeSuccess(): T? = if(this is Results.Success) data else null

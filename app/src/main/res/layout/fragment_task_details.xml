@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".taskdetails.presentation.TaskDetailsFragment">
+
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="@drawable/ic_arrow_back"
+        app:navigationIconTint="?attr/colorOnPrimary"
+        tools:title="Task List" />
+
+    <com.google.android.material.checkbox.MaterialCheckBox
+        android:id="@+id/checkBoxIsCompleted"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInput1"
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@id/checkBoxIsCompleted"
+        app:layout_constraintEnd_toStartOf="@id/checkBoxIsImportant"
+        app:layout_constraintStart_toStartOf="@id/textViewDueDate"
+        app:layout_constraintTop_toTopOf="@id/checkBoxIsCompleted">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editTextTaskName"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="@string/task_name" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.checkbox.MaterialCheckBox
+        android:id="@+id/checkBoxIsImportant"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:buttonCompat="@drawable/star_rate_checkbox"
+        app:buttonTint="?attr/colorError"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar" />
+
+    <com.google.android.material.divider.MaterialDivider
+        android:id="@+id/divider1"
+        style="@style/LargeDivider"
+        android:layout_marginTop="@dimen/divider_margin_top"
+        app:layout_constraintTop_toBottomOf="@id/textInput1" />
+
+    <ImageView
+        android:id="@+id/calendarImage"
+        style="@style/ImageIcon"
+        android:src="@drawable/ic_calendar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/divider1" />
+
+    <TextView
+        android:id="@+id/textViewDueDate"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/due_date_start_margin"
+        android:textAlignment="textStart"
+        android:text="@string/add_due_date"
+        app:layout_constraintBottom_toBottomOf="@id/calendarImage"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/calendarImage"
+        app:layout_constraintTop_toTopOf="@id/calendarImage" />
+
+    <com.google.android.material.divider.MaterialDivider
+        android:id="@+id/divider2"
+        style="@style/LargeDivider"
+        app:layout_constraintTop_toBottomOf="@id/calendarImage" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInput2"
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:padding="@dimen/note_text_padding"
+        app:layout_constraintTop_toBottomOf="@id/divider2"
+        app:layout_constraintBottom_toTopOf="@id/deleteIcon">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editTextNote"
+            android:layout_width="match_parent"
+            android:gravity="start|top"
+            android:layout_height="match_parent"
+            android:hint="@string/add_note" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <ImageView
+        android:id="@+id/deleteIcon"
+        style="@style/ImageIcon"
+        android:src="@drawable/ic_delete"
+        app:tint="?attr/colorOnSurface"
+        android:layout_marginEnd="@dimen/delete_margin_end"
+        android:alpha="0.6"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textInput2" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

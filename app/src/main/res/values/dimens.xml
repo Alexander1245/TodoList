@@ -26,4 +26,11 @@
     <dimen name="card_elevation">10dp</dimen>
     <dimen name="viewpager_margin_top">10dp</dimen>
     <dimen name="task_card_radius">10dp</dimen>
+    <dimen name="due_date_start_margin">9dp</dimen>
+    <dimen name="divider_height">1dp</dimen>
+    <dimen name="note_text_padding">20dp</dimen>
+    <dimen name="calendar_padding">12dp</dimen>
+    <dimen name="completion_margin_start">12dp</dimen>
+    <dimen name="delete_margin_end">8dp</dimen>
+    <dimen name="divider_margin_top">12dp</dimen>
 </resources>

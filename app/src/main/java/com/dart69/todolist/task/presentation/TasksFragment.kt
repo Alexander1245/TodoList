@@ -75,6 +75,7 @@ class TasksFragment : BaseFragment<FragmentTasksBinding, TasksViewModel>(
                     findNavController().navigateUp()
                 }
                 is TasksEvents.ClearTextInput -> binding.editTextTaskName.text?.clear()
+                is TasksEvents.NavigateTo -> findNavController().navigate(it.directions)
             }
         }
 

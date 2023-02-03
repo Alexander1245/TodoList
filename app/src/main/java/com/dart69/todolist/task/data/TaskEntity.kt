@@ -21,9 +21,11 @@ import com.dart69.todolist.home.data.entity.TaskListEntity
 data class TaskEntity(
     @PrimaryKey(autoGenerate = true) val id: Long,
     val name: String,
+    @ColumnInfo(defaultValue = "")
+    val note: String,
     @ColumnInfo(index = true)
     val listName: String,
-    val dueDate: String,
+    val dueDate: Long? = null,
     val isImportant: Boolean,
     val isCompleted: Boolean,
 ): EntityModel

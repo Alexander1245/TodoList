@@ -11,14 +11,12 @@ abstract class IdentifiableAdapter<T : Identifiable<*>, VH : IdentifiableViewHol
 ) : ListAdapter<T, VH>(itemCallback) {
 
     override fun onBindViewHolder(holder: VH, position: Int) {
-        holder.bind(currentList)
+        holder.bind(currentList[position])
     }
 }
 
 abstract class IdentifiableViewHolder<T : Identifiable<*>, VB : ViewBinding>(
     protected val binding: VB
 ) : RecyclerView.ViewHolder(binding.root) {
-    protected val List<T>.currentItem get() = this[absoluteAdapterPosition]
-
-    abstract fun bind(items: List<T>)
+    abstract fun bind(item: T)
 }

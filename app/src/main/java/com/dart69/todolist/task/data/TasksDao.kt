@@ -14,6 +14,9 @@ interface TasksDao {
     @Query("SELECT * FROM TaskEntity WHERE isImportant = :isImportant")
     suspend fun loadByImportant(isImportant: Boolean): List<TaskEntity>
 
+    @Query("SELECT * FROM TaskEntity WHERE id = :id")
+    suspend fun findById(id: Long): TaskEntity?
+
     @Insert
     suspend fun insert(taskEntity: TaskEntity)
 

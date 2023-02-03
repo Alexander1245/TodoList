@@ -25,6 +25,9 @@ interface TasksRepository {
 
     fun observe(): ResultsFlow<List<Task>>
 
+    fun findTaskById(id: Long): ResultsFlow<Task>
+    suspend fun editTask(task: Task)
+
     suspend fun createNewTask(task: Task)
 
     suspend fun toggleCompleted(task: Task)
