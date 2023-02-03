@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         app:navigationIcon="@drawable/ic_arrow_back"
-        app:navigationIconTint="?attr/colorOnPrimary"
+        app:navigationIconTint="?attr/colorOnSurface"
         tools:title="Task List" />
 
     <com.google.android.material.checkbox.MaterialCheckBox

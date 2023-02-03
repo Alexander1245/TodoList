@@ -3,7 +3,7 @@
 
     <style name="AppTextViewStyle" parent="Widget.AppCompat.TextView">
         <item name="android:textAlignment">center</item>
-        <item name="android:textColor">@color/on_surface</item>
+        <item name="android:textColor">?attr/colorOnSurface</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:ellipsize">end</item>
